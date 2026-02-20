@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Bhargav</title>
+    <meta name="description" content="Contact Bhargav for web development opportunities and collaborations.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <a href="index.html" class="logo">Bhargav.</a>
+
+        <ul class="nav-links">
+            <div class="nav-pill"></div>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="burger-menu">
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main>
+        <div class="page-background bg-contact"></div>
+        <section class="page-header">
+            <h1 class="page-title">Get In Touch</h1>
+            <p style="color: grey; margin-top: 1rem;">Have an idea or project? Let's discuss.</p>
+        </section>
+
+        <section class="page-content">
+            <div class="contact-container">
+                <!-- Add Web3Forms Endpoint -->
+                <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+
+                    <!-- Replace YOUR_ACCESS_KEY_HERE with your Web3Forms Key -->
+                    <input type="hidden" name="access_key" value="0b37301a-679a-46ab-ad51-219ef6ca97d4">
+
+                    <!-- Optional settings for Web3Forms -->
+                    <input type="hidden" name="subject" value="New Submission from Portfolio">
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required
+                            placeholder="Describe your project or inquiry"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn" style="color: black;">Send Message</button>
+                </form>
+
+                <div class="social-links">
+                    <a href="https://github.com/Bhargav-droid-5126" target="_blank" class="social-link"
+                        style="display: flex; align-items: center; gap: 0.5rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                            </path>
+                        </svg>
+                        GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/bhargav-ch-s-6426733a7/" target="_blank" class="social-link"
+                        style="display: flex; align-items: center; gap: 0.5rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                            </path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                        LinkedIn
+                    </a>
+                    <a href="mailto:imchsbhargav@gmail.com" class="social-link"
+                        style="display: flex; align-items: center; gap: 0.5rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        Email
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Bhargav. All rights reserved.</p>
+    </footer>
+
+    <!-- Script -->
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

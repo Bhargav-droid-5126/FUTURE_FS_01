@@ -1,0 +1,711 @@
+/* CSS Variables & Global Reset */
+:root {
+    --bg-color: #0c0c0c;
+    --text-color: #ffffff;
+    --accent-color: #ffffff;
+    --secondary-text: #888888;
+    --pill-color: rgba(255, 255, 255, 0.15);
+
+    --font-heading: 'Syne', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --transition-speed: 0.5s;
+    --easing: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: var(--bg-color);
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    opacity: 0;
+    animation: bodyFadeIn 0.8s forwards;
+}
+
+@keyframes bodyFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+ul {
+    list-style: none;
+}
+
+/* --- Navigation --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    transition: padding 0.4s ease, background-color 0.4s ease;
+    mix-blend-mode: difference;
+    color: white;
+}
+
+.navbar.scrolled {
+    padding: 1rem 4rem;
+    background-color: rgba(12, 12, 12, 0.8);
+    backdrop-filter: blur(10px);
+    mix-blend-mode: normal;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+    z-index: 102;
+}
+
+.nav-links {
+    display: flex;
+    position: relative;
+    z-index: 101;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    position: relative;
+    display: flex;
+}
+
+.nav-links li a {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-links li a.active,
+.nav-links li a:hover {
+    color: white;
+}
+
+/* Moving Pill Animation */
+.nav-pill {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 100%;
+    background-color: var(--pill-color);
+    border-radius: 50px;
+    transform: translateY(-50%);
+    transition: all 0.4s var(--easing);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* When pill is white (hovered), the text on top must be black for contrast */
+.nav-links li a:hover {
+    color: black;
+    z-index: 105;
+}
+
+.nav-pill.hovered {
+    background-color: white;
+}
+
+.burger-menu {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.burger-menu span {
+    width: 30px;
+    height: 2px;
+    background-color: white;
+}
+
+/* --- Hero Section & Backgrounds --- */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 5vw;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Restored original image + gradient combo */
+    background-image: url('agency_hero_abstract_1771428201919.png'), radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.7;
+    /* Slightly higher opacity to match original feel */
+}
+
+/* Page Specific Backgrounds */
+.page-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    /* Subtle colorful glow */
+}
+
+.bg-about {
+    background: radial-gradient(circle at 70% 30%, #4a00e0, #000);
+}
+
+/* ColorBends Container replacing bg-projects */
+#colorbends-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.bg-contact {
+    background: radial-gradient(circle at 60% 60%, #ff4b1f, #000);
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    letter-spacing: -2px;
+    color: var(--text-color);
+    /* Animation removed here, handled by JS BlurText */
+    opacity: 1;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: var(--secondary-text);
+    margin-bottom: 3rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    /* Animation removed here, handled by JS BlurText */
+    opacity: 1;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    animation: fadeUp 1s ease 1s forwards;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn {
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid white;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: white;
+    color: black;
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Page Layouts (About, Projects, Contact) --- */
+.page-header {
+    padding: 12rem 10vw 4rem;
+    text-align: center;
+}
+
+.page-title {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 6vw, 5rem);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.page-content {
+    padding: 0 10vw 8rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* About Page */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 4rem;
+    margin-top: 4rem;
+}
+
+.about-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #e0e0e0;
+    margin-bottom: 2rem;
+}
+
+.section-h3 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: white;
+    margin-top: 2rem;
+}
+
+.section-h3:first-child {
+    margin-top: 0;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.skill-tag {
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    cursor: default;
+}
+
+.skill-tag:hover {
+    border-color: white;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.timeline {
+    margin-top: 2rem;
+}
+
+.timeline-item {
+    padding-bottom: 2rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 5px;
+    width: 9px;
+    height: 9px;
+    background: white;
+    border-radius: 50%;
+}
+
+.timeline-item:last-child {
+    border-left: 1px solid transparent;
+}
+
+.timeline-role {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: white;
+}
+
+.timeline-company {
+    font-size: 1rem;
+    color: var(--secondary-text);
+    margin-bottom: 0.5rem;
+}
+
+.timeline-date {
+    font-size: 0.85rem;
+    color: #666;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-desc {
+    font-size: 0.95rem;
+    color: #aaa;
+    line-height: 1.5;
+}
+
+/* Projects Page */
+.projects-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4rem;
+}
+
+/* User Provided Folder Style & Project Card Override */
+.project-card {
+    width: 280px;
+    background: transparent;
+    border: none;
+    overflow: visible;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    cursor: default;
+    /* Let folder handle pointer */
+}
+
+/* Folder CSS Logic */
+.folder-wrapper {
+    position: relative;
+    /* Base scaling of folder */
+    transform: scale(1.5);
+    margin-bottom: 2rem;
+    width: 100px;
+    /* Base width of folder */
+    height: 80px;
+    /* Base height of folder */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.folder {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.folder:hover {
+    transform: translateY(-5px);
+}
+
+.folder-back {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--folder-back-color, #4785ff);
+    border-radius: 0px 10px 10px 10px;
+}
+
+.folder-back::after {
+    position: absolute;
+    z-index: 0;
+    bottom: 98%;
+    left: 0;
+    content: '';
+    width: 30px;
+    height: 10px;
+    background: var(--folder-back-color, #4785ff);
+    border-radius: 5px 5px 0 0;
+}
+
+/* Papers inside */
+.paper {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 80%;
+    background: #e6e6e6;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.paper:nth-child(2) {
+    background: #f2f2f2;
+    width: 80%;
+    height: 70%;
+    z-index: 2;
+}
+
+.paper:nth-child(3) {
+    background: #ffffff;
+    width: 90%;
+    height: 60%;
+    z-index: 2;
+}
+
+/* Folder Front Flap */
+.folder-front {
+    position: absolute;
+    z-index: 10;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--folder-color, #70a1ff);
+    border-radius: 0 10px 10px 10px;
+    transform-origin: bottom;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Hover / Open States handled by CSS :hover on .folder */
+.folder:hover .folder-front {
+    transform: skewX(-15deg) scaleY(0.9);
+}
+
+.folder:hover .paper:nth-child(1) {
+    transform: translate(-80%, -65%) rotate(-15deg);
+    transition-delay: 0.1s;
+}
+
+.folder:hover .paper:nth-child(2) {
+    transform: translate(-20%, -65%) rotate(15deg);
+    transition-delay: 0.05s;
+}
+
+.folder:hover .paper:nth-child(3) {
+    transform: translate(-50%, -80%) rotate(0deg);
+    transition-delay: 0.15s;
+}
+
+.project-info {
+    padding: 1rem 0;
+    width: 100%;
+}
+
+.project-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.project-desc {
+    color: var(--secondary-text);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.project-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.project-link {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 2px;
+    transition: all 0.3s ease;
+}
+
+.project-link:hover {
+    border-color: white;
+    color: white;
+}
+
+/* Contact Page */
+.contact-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group input,
+.form-group textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1rem 0;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: white;
+    transition: border-color 0.3s ease;
+    resize: none;
+}
+
+.form-group input:focus,
+.form-group textarea {
+    outline: none;
+    border-color: white;
+}
+
+.submit-btn {
+    margin-top: 1rem;
+    background: white;
+    color: black;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+    align-self: flex-start;
+}
+
+.submit-btn:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-link {
+    font-size: 1.1rem;
+    color: var(--secondary-text);
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.social-link:hover {
+    color: white;
+}
+
+/* Footer */
+footer {
+    padding: 2rem;
+    text-align: center;
+    color: #444;
+    font-size: 0.8rem;
+    border-top: 1px solid #111;
+}
+
+/* Blur Text Animation Classes */
+.blur-text-word {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(0, -50px, 0);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+        filter 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+        transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, filter, opacity;
+}
+
+.blur-text-active {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+}
+
+@media (max-width: 900px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar {
+        padding: 1.5rem 2rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .burger-menu {
+        display: flex;
+    }
+
+    .hero-title {
+        font-size: 12vw;
+    }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Bhargav</title>
+    <meta name="description" content="View my latest full stack web development projects.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <a href="index.html" class="logo">Bhargav.</a>
+
+        <ul class="nav-links">
+            <div class="nav-pill"></div>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="burger-menu">
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main>
+        <!-- Add colorbends-container ID and remove bg-projects so ColorBends handles the background -->
+        <div id="colorbends-container" class="page-background" style="opacity: 1; pointer-events: auto; z-index: -1;">
+        </div>
+        <section class="page-header">
+            <h1 class="page-title">My Projects</h1>
+        </section>
+
+        <section class="page-content">
+            <div class="projects-grid">
+
+                <!-- Project 1: My Portfolio -->
+                <div class="project-card">
+                    <div class="folder-wrapper" onclick="window.location.href='project-details.html?project=portfolio'">
+                        <div class="folder">
+                            <div class="folder-back" style="--folder-back-color: #2c3e50;">
+                                <div class="paper"></div>
+                                <div class="paper"></div>
+                                <div class="paper"></div>
+                                <div class="folder-front" style="background: #34495e;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">My Portfolio</h3>
+                        <p class="project-desc">Personal portfolio website.</p>
+                    </div>
+                </div>
+
+                <!-- Project 2: iOS App -->
+                <div class="project-card">
+                    <div class="folder-wrapper" onclick="window.location.href='project-details.html?project=iosapp'">
+                        <div class="folder">
+                            <div class="folder-back" style="--folder-back-color: #27ae60;">
+                                <div class="paper"></div>
+                                <div class="paper"></div>
+                                <div class="paper"></div>
+                                <div class="folder-front" style="background: #2ecc71;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Jingucha iOS App</h3>
+                        <p class="project-desc">E-commerce mobile app.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Bhargav. All rights reserved.</p>
+    </footer>
+
+    <!-- Script -->
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

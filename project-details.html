@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Bhargav</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .details-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav id="navbar" class="navbar">
+        <a href="index.html" class="logo">Bhargav.</a>
+        <ul class="nav-links">
+            <div class="nav-pill"></div>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="burger-menu">
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main>
+        <div class="page-background bg-projects"></div>
+        <section class="page-header" style="padding-bottom: 2rem;">
+            <a href="projects.html" style="font-size: 0.9rem; color: #888; margin-bottom: 1rem; display: block;">&larr;
+                Back to Projects</a>
+            <h1 id="details-title" class="page-title">Project Name</h1>
+        </section>
+
+        <section class="page-content">
+            <div class="details-container">
+                <div id="details-tags"></div>
+                <p id="details-desc" style="font-size: 1.1rem; line-height: 1.8; color: #e0e0e0; margin-bottom: 2rem;">
+                    Loading project details...
+                </p>
+                <div class="project-links" style="justify-content: flex-start;">
+                    <a href="#" id="github-link" class="btn btn-secondary" target="_blank">GitHub Repo</a>
+                    <a href="#" id="live-link" class="btn btn-primary" target="_blank">Live Demo</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Bhargav. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+    <script>
+        // Use standard JS to parse query params and mock data
+        const params = new URLSearchParams(window.location.search);
+        const projectId = params.get('project');
+
+        const projectsData = {
+            'portfolio': {
+                title: 'My Portfolio',
+                desc: 'A modern, interactive developer portfolio featuring smooth WebGL animations using Three.js and dynamic vanilla JavaScript effects. Designed with a dark, premium aesthetic to showcase my latest full stack and mobile projects.',
+                tags: ['HTML', 'CSS', 'JavaScript', 'Three.js'],
+                github: '#',
+                live: 'index.html'
+            },
+            'iosapp': {
+                title: 'Jingucha iOS App',
+                desc: 'A premium e-commerce mobile application for the Jingucha brand. Built entirely with Swift and SwiftUI, it features an Apple-inspired minimalist design, smooth nature-themed UI aesthetics, and an integrated WhatsApp-based checkout flow.',
+                tags: ['Swift', 'SwiftUI', 'iOS'],
+                github: 'https://github.com/Bhargav-droid-5126/jingucha-ios-app',
+                live: '#'
+            }
+        };
+
+        const project = projectsData[projectId];
+
+        if (project) {
+            document.getElementById('details-title').textContent = project.title;
+            document.getElementById('details-desc').textContent = project.desc;
+            if (project.github && project.github !== '#') {
+                document.getElementById('github-link').href = project.github;
+                document.getElementById('github-link').style.display = 'inline-block';
+            } else {
+                document.getElementById('github-link').style.display = 'none';
+            }
+
+            if (project.live && project.live !== '#') {
+                document.getElementById('live-link').href = project.live;
+                document.getElementById('live-link').style.display = 'inline-block';
+            } else {
+                document.getElementById('live-link').style.display = 'none';
+            }
+
+            const tagsContainer = document.getElementById('details-tags');
+            project.tags.forEach(tag => {
+                const span = document.createElement('span');
+                span.className = 'project-tag';
+                span.textContent = tag;
+                tagsContainer.appendChild(span);
+            });
+        } else {
+            document.getElementById('details-title').textContent = 'Project Not Found';
+            document.getElementById('details-desc').textContent = 'The project you are looking for does not exist.';
+            document.querySelector('.project-links').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

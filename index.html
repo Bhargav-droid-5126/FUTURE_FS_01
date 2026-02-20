@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhargav | Full Stack Developer</title>
+  <meta name="description"
+    content="Portfolio of Bhargav, a Full Stack Web Development Intern specializing in building modern web applications.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav id="navbar" class="navbar">
+    <a href="index.html" class="logo">Bhargav.</a>
+
+    <ul class="nav-links">
+      <div class="nav-pill"></div>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="burger-menu">
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section">
+      <div class="hero-background"></div>
+      <!-- Rays Container -->
+      <div id="light-rays-container"
+        style="position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;"></div>
+
+      <div style="position: relative; z-index: 1; width: 120%;">
+        <h1 class="hero-title">Welcome to my portfolio</h1>
+        <div class="hero-cta" style="justify-content: center;">
+          <a href="projects.html" class="btn btn-primary">View Projects</a>
+          <a href="resume.pdf" target="_blank" class="btn btn-secondary">Resume</a>
+          <a href="contact.html" class="btn btn-secondary">Contact Me</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Script -->
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>
