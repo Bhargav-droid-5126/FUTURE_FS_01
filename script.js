@@ -38,7 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (targetNode) {
       // Ensure the pill measures correctly relative to the container
       navPill.style.width = `${targetNode.offsetWidth}px`;
+      navPill.style.height = `${targetNode.offsetHeight}px`;
       navPill.style.left = `${targetNode.offsetLeft}px`;
+      navPill.style.top = `${targetNode.offsetTop}px`;
       navPill.style.opacity = '1';
     }
 
@@ -74,6 +76,29 @@ document.addEventListener('DOMContentLoaded', () => {
         navPill.style.opacity = '0';
         navPill.classList.remove('hovered');
       }
+    });
+  }
+
+  // --- Mobile Hamburger Menu ---
+  const burger = document.querySelector('.burger-menu');
+  const nav = document.querySelector('.nav-links');
+
+  if (burger && nav) {
+    // Toggle Nav
+    burger.addEventListener('click', () => {
+      nav.classList.toggle('nav-active');
+      burger.classList.toggle('toggle');
+    });
+
+    // Close Nav when a link is clicked
+    const mobileNavLinks = document.querySelectorAll('.nav-links li:not(.nav-pill) a');
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (nav.classList.contains('nav-active')) {
+          nav.classList.remove('nav-active');
+          burger.classList.remove('toggle');
+        }
+      });
     });
   }
 
