@@ -537,6 +537,26 @@ ul {
     }
 }
 
+/* Mobile explicit open states */
+.folder.open .folder-front {
+    transform: skewX(-15deg) scaleY(0.9);
+}
+
+.folder.open .paper:nth-child(1) {
+    transform: translate(-80%, -65%) rotate(-15deg) translateZ(0);
+    transition-delay: 0.1s;
+}
+
+.folder.open .paper:nth-child(2) {
+    transform: translate(-20%, -65%) rotate(15deg) translateZ(0);
+    transition-delay: 0.05s;
+}
+
+.folder.open .paper:nth-child(3) {
+    transform: translate(-50%, -80%) rotate(0deg) translateZ(0);
+    transition-delay: 0.15s;
+}
+
 .project-info {
     padding: 1rem 0;
     width: 100%;

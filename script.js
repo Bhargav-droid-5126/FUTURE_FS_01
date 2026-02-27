@@ -571,6 +571,23 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize BlurText
   new BlurText();
 
+  // --- Folder Mobile Animation ---
+  // On mobile devices, automatically fan out the folders when they scroll into view
+  const folders = document.querySelectorAll('.folder');
+  if (folders.length > 0 && window.matchMedia("(max-width: 768px)").matches) {
+    const folderObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('open');
+        } else {
+          entry.target.classList.remove('open');
+        }
+      });
+    }, { threshold: 0.5 });
+
+    folders.forEach(f => folderObserver.observe(f));
+  }
+
   // --- ColorBends Animation ---
   class ColorBends {
     constructor(container, options = {}) {
@@ -816,15 +833,15 @@ document.addEventListener('DOMContentLoaded', () => {
     new ColorBends(cbContainer, {
       colors: ["#ff5c7a", "#8a5cff", "#00ffd1"],
       rotation: -12,
-      speed: isMobile ? 0.1 : 0.2,
-      scale: isMobile ? 1.5 : 1,
-      frequency: 1,
-      warpStrength: isMobile ? 0.3 : 1,
+      speed: isMobile ? 0.3 : 0.4,
+      scale: isMobile ? 3 : 3,
+      frequency: 0.8,
+      warpStrength: isMobile ? 1.5 : 1.5,
       mouseInfluence: isMobile ? 0 : 1,
       parallax: isMobile ? 0 : 0.5,
       noise: isMobile ? 0 : 0.1,
-      transparent: true,
-      autoRotate: 0
+      transparent: false,
+      autoRotate: 0.5
     });
   }
 
