@@ -103,13 +103,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Scroll Header Effect ---
+  let scrollTicking = false;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
+    if (!scrollTicking) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+        scrollTicking = false;
+      });
+      scrollTicking = true;
     }
-  });
+  }, { passive: true });
 
   // --- Interaction Observer for Animations ---
   const observerOptions = {
@@ -349,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     addListeners() {
-      window.addEventListener('resize', () => this.resize());
+      window.addEventListener('resize', () => this.resize(), { passive: true });
       window.addEventListener('mousemove', (e) => {
         if (!this.container) return;
         const rect = this.container.getBoundingClientRect();
@@ -357,7 +364,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const y = (e.clientY - rect.top) / rect.height;
         // Flip Y for GL coords if needed, but shader handles it
         this.mouse = { x, y: 1.0 - y };
-      });
+      }, { passive: true });
+      window.addEventListener('touchmove', (e) => {
+        if (!this.container || !e.touches[0]) return;
+        const rect = this.container.getBoundingClientRect();
+        const x = (e.touches[0].clientX - rect.left) / rect.width;
+        const y = (e.touches[0].clientY - rect.top) / rect.height;
+        this.mouse = { x, y: 1.0 - y };
+      }, { passive: true });
     }
 
     loop(t) {
@@ -379,13 +393,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize LightRays
   try {
+    const isMobile = window.innerWidth <= 768;
     new LightRays({
       raysOrigin: 'top-center',
       raysColor: '#ffffff',
-      raysSpeed: 0.2, // Majestic slow speed
-      lightSpread: 0.2,
+      raysSpeed: isMobile ? 0.05 : 0.2, // Majestic slow speed
+      lightSpread: isMobile ? 0.05 : 0.2,
       rayLength: 5.0,
-      mouseInfluence: 0.5
+      mouseInfluence: isMobile ? 0 : 0.5,
+      distortion: isMobile ? 0.2 : 0.5
     });
   } catch (err) {
     console.error("LightRays Init Error:", err);
@@ -428,8 +444,8 @@ document.addEventListener('DOMContentLoaded', () => {
       this.ctx = this.canvas.getContext('2d');
 
       this.resize();
-      // Use passive listeners where possible, but not strictly required here
-      window.addEventListener('resize', () => this.resize());
+      // Use passive listeners where possible
+      window.addEventListener('resize', () => this.resize(), { passive: true });
       window.addEventListener('mousedown', (e) => this.handleClick(e));
 
       // this.loop(performance.now()); // Don't run loop if empty
@@ -506,12 +522,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Initialize Global ClickSpark
+  const isMobile = window.innerWidth <= 768;
   new ClickSpark({
     color: '#fff',
-    size: 10,
-    radius: 20,
-    count: 8,
-    duration: 400
+    size: isMobile ? 6 : 10,
+    radius: isMobile ? 12 : 20,
+    count: isMobile ? 4 : 8,
+    duration: 350
   });
 
   // --- BlurText Animation ---
@@ -738,8 +755,8 @@ document.addEventListener('DOMContentLoaded', () => {
       this.handlePointerMove = this.handlePointerMove.bind(this);
       this.loop = this.loop.bind(this);
 
-      window.addEventListener('resize', this.handleResize);
-      window.addEventListener('pointermove', this.handlePointerMove);
+      window.addEventListener('resize', this.handleResize, { passive: true });
+      window.addEventListener('pointermove', this.handlePointerMove, { passive: true });
 
       this.handleResize();
       this.raf = requestAnimationFrame(this.loop);
@@ -803,16 +820,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize ColorBends on specific containers
   const cbContainer = document.getElementById('colorbends-container');
   if (cbContainer) {
+    const isMobile = window.innerWidth <= 768;
     new ColorBends(cbContainer, {
       colors: ["#ff5c7a", "#8a5cff", "#00ffd1"],
       rotation: -12,
-      speed: 0.2,
-      scale: 1,
+      speed: isMobile ? 0.1 : 0.2,
+      scale: isMobile ? 1.5 : 1,
       frequency: 1,
-      warpStrength: 1,
-      mouseInfluence: 1,
-      parallax: 0.5,
-      noise: 0.1,
+      warpStrength: isMobile ? 0.3 : 1,
+      mouseInfluence: isMobile ? 0 : 1,
+      parallax: isMobile ? 0 : 0.5,
+      noise: isMobile ? 0 : 0.1,
       transparent: true,
       autoRotate: 0
     });
