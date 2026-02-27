@@ -166,8 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initWebGL() {
       this.renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio, 2),
-        alpha: true
+        dpr: Math.min(window.devicePixelRatio, 1.5),
+        alpha: true,
+        powerPreference: 'high-performance'
       });
 
       this.gl = this.renderer.gl;
@@ -431,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.addEventListener('resize', () => this.resize());
       window.addEventListener('mousedown', (e) => this.handleClick(e));
 
-      this.loop(performance.now());
+      // this.loop(performance.now()); // Don't run loop if empty
     }
 
     resize() {
@@ -443,6 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const x = e.clientX;
       const y = e.clientY;
       const now = performance.now();
+      const wasEmpty = this.sparks.length === 0;
 
       for (let i = 0; i < this.options.count; i++) {
         this.sparks.push({
@@ -451,6 +453,10 @@ document.addEventListener('DOMContentLoaded', () => {
           angle: (2 * Math.PI * i) / this.options.count,
           startTime: now
         });
+      }
+
+      if (wasEmpty) {
+        requestAnimationFrame((t) => this.loop(t));
       }
     }
 
@@ -493,7 +499,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
       });
 
-      requestAnimationFrame((t) => this.loop(t));
+      if (this.sparks.length > 0) {
+        requestAnimationFrame((t) => this.loop(t));
+      }
     }
   }
 
@@ -716,7 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       this.renderer.outputColorSpace = THREE.SRGBColorSpace;
-      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       this.renderer.setClearColor(0x000000, this.options.transparent ? 0 : 1);
 
       this.renderer.domElement.style.width = '100%';
