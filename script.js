@@ -845,4 +845,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- Cinematic Loader Sequence ---
+  const loader = document.getElementById('cinematic-loader');
+  if (loader) {
+    const isMobile = window.innerWidth <= 768;
+    const loaderDuration = isMobile ? 2600 : 3400; // time before fading out
+
+    // Temporarily disable scroll while loader is active
+    document.body.style.overflow = 'hidden';
+
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      document.body.style.overflow = '';
+
+      // Remove from DOM to save resources
+      setTimeout(() => {
+        loader.remove();
+      }, 800);
+    }, loaderDuration);
+  }
+
 });
