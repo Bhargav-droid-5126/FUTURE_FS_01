@@ -27,8 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Pill Animation Logic ---
   function movePillTo(element, isHover = false) {
-    if (!element) {
-      navPill.style.opacity = '0';
+    // Disable pill animations entirely on mobile screens to prevent layout lag
+    if (window.innerWidth <= 768) {
+      if (navPill) navPill.style.display = 'none';
+      return;
+    }
+
+    if (!element || !navPill) {
+      if (navPill) navPill.style.opacity = '0';
       return;
     }
 
@@ -849,7 +855,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('cinematic-loader');
   if (loader) {
     const isMobile = window.innerWidth <= 768;
-    const loaderDuration = isMobile ? 2600 : 3400; // time before fading out
+    const loaderDuration = 3400; // unified time before fading out
 
     // Temporarily disable scroll while loader is active
     document.body.style.overflow = 'hidden';
@@ -863,6 +869,177 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.remove();
       }, 800);
     }, loaderDuration);
+  }
+
+  // --- Certifications Page Animation ---
+  const certPage = document.querySelector('.cert-main');
+  if (certPage && typeof gsap !== 'undefined') {
+    // 1. Text Morphing Intro
+    const title = document.getElementById('cert-title-morph');
+    const fonts = ['Inter', 'Playfair Display', 'Space Mono', 'Cinzel', 'Syne'];
+    let fontIndex = 0;
+
+    // Quick morph interval
+    const morphInterval = setInterval(() => {
+      title.style.fontFamily = fonts[fontIndex % fonts.length];
+      fontIndex++;
+    }, 150);
+
+    const tl = gsap.timeline();
+
+    // Fade in text
+    tl.to(title, { opacity: 1, duration: 0.5, ease: "power2.out" })
+      .to({}, { duration: 1.5 }) // wait while morphing
+      .add(() => {
+        clearInterval(morphInterval);
+        title.style.fontFamily = 'Syne'; // Settle on heading font
+        // Make letter spacing responsive
+        title.style.letterSpacing = window.innerWidth <= 768 ? '0.1rem' : '1rem';
+      })
+      .to(title, {
+        opacity: 0,
+        scale: 1.5,
+        filter: "blur(10px)", // using filter blur for modern effect
+        duration: 1,
+        ease: "power2.inOut"
+      }, "+=0.5")
+      // 2. Realistic Hand Reveal (From Bottom)
+      .to('.hand-and-cert-group', {
+        y: 0,
+        duration: 1.5,
+        ease: "power3.out"
+      })
+      .to('.certificate-document', {
+        rotationY: -5,
+        rotationX: 10,
+        y: 10,
+        duration: 1,
+        ease: "power2.out"
+      })
+      .to('.realistic-hand-element', {
+        y: '50vh', // hand moves down and disappears
+        opacity: 0,
+        duration: 1.2,
+        ease: "power2.in"
+      }, "+=0.3")
+      .to('.certificate-document', {
+        rotationY: 0,
+        rotationX: 0,
+        y: 0,
+        duration: 1.5,
+        ease: "elastic.out(1, 0.5)",
+        onComplete: () => {
+          // Enable interactivity
+          document.getElementById('main-certificate').classList.add('interactive');
+        }
+      }, "-=0.8");
+
+    // 3. Grid Interactive Reveal
+    const certDoc = document.getElementById('main-certificate');
+    const gridOverlay = document.querySelector('.cert-expanded-grid');
+    const closeBtn = document.querySelector('.cert-close-btn');
+
+    // Hover logic via JS for slight 3D tracking
+    certDoc.addEventListener('mousemove', (e) => {
+      if (!certDoc.classList.contains('interactive')) return;
+      const rect = certDoc.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const xPct = (x / rect.width - 0.5) * 2; // -1 to +1
+      const yPct = (y / rect.height - 0.5) * 2; // -1 to +1
+
+      gsap.to(certDoc, {
+        rotationY: xPct * 10,
+        rotationX: -yPct * 10,
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+    });
+
+    certDoc.addEventListener('mouseleave', () => {
+      if (!certDoc.classList.contains('interactive')) return;
+      gsap.to(certDoc, {
+        rotationY: 0,
+        rotationX: 0,
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+    });
+
+    certDoc.addEventListener('click', () => {
+      if (!certDoc.classList.contains('interactive')) return;
+
+      const gridTl = gsap.timeline();
+      gridOverlay.style.display = 'flex';
+
+      gridTl.to(certDoc, {
+        scale: 0,
+        opacity: 0,
+        duration: 0.6,
+        ease: "back.in(1.2)"
+      })
+        .to(gridOverlay, {
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out"
+        }, "-=0.3")
+        .fromTo('.cert-card',
+          { y: 50, opacity: 0, rotateX: 15 },
+          { y: 0, opacity: 1, rotateX: 0, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)" },
+          "-=0.4"
+        );
+    });
+
+    closeBtn.addEventListener('click', () => {
+      const closeTl = gsap.timeline({
+        onComplete: () => {
+          gridOverlay.style.display = 'none';
+        }
+      });
+
+      closeTl.to('.cert-card', {
+        y: 30, opacity: 0, duration: 0.4, stagger: 0.05, ease: "power2.in"
+      })
+        .to(gridOverlay, {
+          opacity: 0, duration: 0.5
+        })
+        .to(certDoc, {
+          scale: 1, opacity: 1, rotationY: 0, rotationX: 0, duration: 0.8, ease: "elastic.out(1, 0.7)"
+        }, "-=0.2");
+    });
+
+    // 4. Image Modal Viewer Logic
+    const imageModal = document.getElementById('cert-image-modal');
+    const modalImg = document.getElementById('cert-modal-img');
+    const modalClose = document.querySelector('.cert-image-close');
+
+    if (imageModal && modalImg) {
+      const cards = document.querySelectorAll('.cert-card');
+
+      cards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          // ensure the click wasn't meant to just hover inside the overlay
+          e.stopPropagation();
+          const imgSrc = card.getAttribute('data-img');
+          if (imgSrc) {
+            modalImg.src = imgSrc;
+            imageModal.classList.add('active');
+          }
+        });
+      });
+
+      // Close modal on close button click
+      modalClose.addEventListener('click', () => {
+        imageModal.classList.remove('active');
+      });
+
+      // Close modal when clicking completely outside the image
+      imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) {
+          imageModal.classList.remove('active');
+        }
+      });
+    }
   }
 
 });
